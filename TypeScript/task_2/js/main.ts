@@ -50,7 +50,19 @@ function createEmployee(salary: number | string): Director | Teacher {
   return new Director();
 }
 
-// Exemples demandés
-console.log(createEmployee(200));   // Teacher
-console.log(createEmployee(1000));  // Director
-console.log(createEmployee("$500")); // Director
+// 6. Fonction isDirector (type predicate)
+function isDirector(employee: Director | Teacher): employee is Director {
+  return employee instanceof Director;
+}
+
+// 7. Fonction executeWork
+function executeWork(employee: Director | Teacher): string {
+  if (isDirector(employee)) {
+    return employee.workDirectorTasks();
+  }
+  return employee.workTeacherTasks();
+}
+
+// 🔹 Exemples demandés
+console.log(executeWork(createEmployee(200)));   // Getting to work
+console.log(executeWork(createEmployee(1000)));  // Getting to director tasks
