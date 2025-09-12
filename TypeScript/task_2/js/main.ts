@@ -1,20 +1,23 @@
-// 5 – Creating classes for employees.
+// task_2/js/main.ts
 
-// 1. Interface pour un directeur
+// --------------------
+// Interfaces
+// --------------------
 interface DirectorInterface {
   workFromHome(): string;
   getCoffeeBreak(): string;
   workDirectorTasks(): string;
 }
 
-// 2. Interface pour un enseignant
 interface TeacherInterface {
   workFromHome(): string;
   getCoffeeBreak(): string;
   workTeacherTasks(): string;
 }
 
-// 3. Classe Director implémentant DirectorInterface
+// --------------------
+// Classes
+// --------------------
 class Director implements DirectorInterface {
   workFromHome(): string {
     return "Working from home";
@@ -29,7 +32,6 @@ class Director implements DirectorInterface {
   }
 }
 
-// 4. Classe Teacher implémentant TeacherInterface
 class Teacher implements TeacherInterface {
   workFromHome(): string {
     return "Cannot work from home";
@@ -44,106 +46,61 @@ class Teacher implements TeacherInterface {
   }
 }
 
-// 5. Fonction createEmployee
-function createEmployee(salary: number | string): Director | Teacher {
+// --------------------
+// Fonction createEmployee
+// --------------------
+function createEmployee(salary: number | string): Teacher | Director {
   if (typeof salary === "number" && salary < 500) {
     return new Teacher();
   }
   return new Director();
 }
 
-// Exemples demandés
-console.log(createEmployee(200));   // Teacher
-console.log(createEmployee(1000));  // Director
-console.log(createEmployee("$500")); // Director
-
-
-// 6 – Creating functions specific to employees.
-
-// 1. Interface pour un directeur
-interface DirectorInterface {
-  workFromHome(): string;
-  getCoffeeBreak(): string;
-  workDirectorTasks(): string;
-}
-
-// 2. Interface pour un enseignant
-interface TeacherInterface {
-  workFromHome(): string;
-  getCoffeeBreak(): string;
-  workTeacherTasks(): string;
-}
-
-// 3. Classe Director implémentant DirectorInterface
-class Director implements DirectorInterface {
-  workFromHome(): string {
-    return "Working from home";
-  }
-
-  getCoffeeBreak(): string {
-    return "Getting a coffee break";
-  }
-
-  workDirectorTasks(): string {
-    return "Getting to director tasks";
-  }
-}
-
-// 4. Classe Teacher implémentant TeacherInterface
-class Teacher implements TeacherInterface {
-  workFromHome(): string {
-    return "Cannot work from home";
-  }
-
-  getCoffeeBreak(): string {
-    return "Cannot have a break";
-  }
-
-  workTeacherTasks(): string {
-    return "Getting to work";
-  }
-}
-
-// 5. Fonction createEmployee
-function createEmployee(salary: number | string): Director | Teacher {
-  if (typeof salary === "number" && salary < 500) {
-    return new Teacher();
-  }
-  return new Director();
-}
-
-// 6. Fonction isDirector (type predicate)
+// --------------------
+// Type predicate
+// --------------------
 function isDirector(employee: Director | Teacher): employee is Director {
   return employee instanceof Director;
 }
 
-// 7. Fonction executeWork
-function executeWork(employee: Director | Teacher): string {
+// --------------------
+// Fonction executeWork
+// --------------------
+function executeWork(employee: Director | Teacher): void {
   if (isDirector(employee)) {
-    return employee.workDirectorTasks();
+    console.log(employee.workDirectorTasks());
+  } else {
+    console.log(employee.workTeacherTasks());
   }
-  return employee.workTeacherTasks();
 }
 
-// Exemples demandés
-console.log(executeWork(createEmployee(200)));   // Getting to work
-console.log(executeWork(createEmployee(1000)));  // Getting to director tasks
-
-
-// 7. String literal types
-
-// Définition du type littéral
+// --------------------
+// Type littéral Subjects
+// --------------------
 type Subjects = "Math" | "History";
 
+// Mapping des matières à leur message
+const classMap: Record<Subjects, string> = {
+  Math: "Teaching Math",
+  History: "Teaching History",
+};
+
+// --------------------
 // Fonction teachClass
+// --------------------
 function teachClass(todayClass: Subjects): string {
-  if (todayClass === "Math") {
-    return "Teaching Math";
-  } else {
-    return "Teaching History";
-  }
+  return classMap[todayClass];
 }
 
-// Tests
+// --------------------
+// Exemple d'utilisation
+// --------------------
+console.log(createEmployee(200).constructor.name);    // Teacher
+console.log(createEmployee(1000).constructor.name);   // Director
+console.log(createEmployee("$500").constructor.name); // Director
+
+executeWork(createEmployee(200));    // Getting to work
+executeWork(createEmployee(1000));   // Getting to director tasks
+
 console.log(teachClass("Math"));     // Teaching Math
 console.log(teachClass("History"));  // Teaching History
