@@ -1,20 +1,25 @@
 // 1. Définir l’interface Teacher
 interface Teacher {
-  readonly firstName: string;      // ne peut être défini qu’à l’initialisation
-  readonly lastName: string;       // idem
+  readonly firstName: string;
+  readonly lastName: string;
   fullTimeEmployee: boolean;
-  yearsOfExperience?: number;      // optionnel
+  yearsOfExperience?: number;
   location: string;
-  [propName: string]: any;         // permet d’ajouter d’autres propriétés
+  [propName: string]: any; // permet d’ajouter d’autres propriétés
 }
 
-// 2. Exemple d’utilisation
-const teacher3: Teacher = {
+// 2. Définir l’interface Directors qui étend Teacher
+interface Directors extends Teacher {
+  numberOfReports: number;
+}
+
+// 3. Exemple d’utilisation
+const director1: Directors = {
   firstName: "John",
   lastName: "Doe",
-  fullTimeEmployee: false,
   location: "London",
-  contract: false, // propriété ajoutée dynamiquement
+  fullTimeEmployee: true,
+  numberOfReports: 17,
 };
 
-console.log(teacher3);
+console.log(director1);
